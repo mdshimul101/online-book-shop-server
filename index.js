@@ -22,7 +22,7 @@ async function run() {
     const serviceCollection = client
       .db("bookShop")
       .collection("booksCollection");
-    // const orderCollection = client.db("geniusCar").collection("orders");
+    const reviewCollection = client.db("bookShop").collection("allReviews");
 
     app.get("/books", async (req, res) => {
       const query = {};
@@ -59,11 +59,28 @@ async function run() {
     //   res.send(orders);
     // });
 
-    // app.post("/orders", async (req, res) => {
-    //   const order = req.body;
-    //   const result = await orderCollection.insertOne(order);
-    //   res.send(result);
-    // });
+    app.post("/allReviews", async (req, res) => {
+      const order = req.body;
+      const result = await reviewCollection.insertOne(order);
+      res.send(result);
+    });
+    app.get("/allReviews", async (req, res) => {
+      const query = {};
+      const cursor = reviewCollection.find(query);
+      const services = await cursor.toArray();
+      res.send(services);
+    });
+
+    app.get("/allReviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = {
+        service: id,
+      };
+      const cursor = reviewCollection.find(query);
+      const services = await cursor.toArray();
+      console.log(services);
+      res.send(services);
+    });
 
     // app.patch("/orders/:id", async (req, res) => {
     //   const id = req.params.id;
