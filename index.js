@@ -30,6 +30,12 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
+    app.post("/allBooks", async (req, res) => {
+      const order = req.body;
+      console.log(order);
+      const result = await serviceCollection.insertOne(order);
+      res.send(result);
+    });
     app.get("/allBooks", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
@@ -52,7 +58,7 @@ async function run() {
           email: req.query.email,
         };
       }
-      console.log(req.query.email);
+
       const cursor = reviewCollection.find(query);
       const orders = await cursor.toArray();
       res.send(orders);
@@ -63,6 +69,7 @@ async function run() {
       const result = await reviewCollection.insertOne(order);
       res.send(result);
     });
+
     app.get("/allReviews", async (req, res) => {
       const query = {};
       const cursor = reviewCollection.find(query);
