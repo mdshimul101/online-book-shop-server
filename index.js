@@ -23,6 +23,7 @@ async function run() {
       .db("bookShop")
       .collection("booksCollection");
     const reviewCollection = client.db("bookShop").collection("allReviews");
+    const newbooksCollection = client.db("bookShop").collection("newBooks");
 
     app.get("/books", async (req, res) => {
       const query = {};
@@ -30,12 +31,21 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
+    //New Book api
+    app.get("/newBooks", async (req, res) => {
+      const query = {};
+      const cursor = newbooksCollection.find(query);
+      const newBook = await cursor.toArray();
+      res.send(newBook);
+    });
+    // add service like - Book info
     app.post("/allBooks", async (req, res) => {
       const order = req.body;
       console.log(order);
       const result = await serviceCollection.insertOne(order);
       res.send(result);
     });
+    // all Book api
     app.get("/allBooks", async (req, res) => {
       const query = {};
       const cursor = serviceCollection.find(query);
