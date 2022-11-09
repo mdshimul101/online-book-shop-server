@@ -44,20 +44,19 @@ async function run() {
       res.send(service);
     });
 
-    // orders api
-    // app.get("/orders", async (req, res) => {
-    //   let query = {};
+    app.get("/allReviews", async (req, res) => {
+      let query = {};
 
-    //   if (req.query.email) {
-    //     query = {
-    //       email: req.query.email,
-    //     };
-    //   }
-
-    //   const cursor = orderCollection.find(query);
-    //   const orders = await cursor.toArray();
-    //   res.send(orders);
-    // });
+      if (req.query.email) {
+        query = {
+          email: req.query.email,
+        };
+      }
+      console.log(req.query.email);
+      const cursor = reviewCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
 
     app.post("/allReviews", async (req, res) => {
       const order = req.body;
