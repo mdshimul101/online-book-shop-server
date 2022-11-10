@@ -70,13 +70,13 @@ async function run() {
       }
 
       const cursor = reviewCollection.find(query);
-      const orders = await cursor.toArray();
-      res.send(orders);
+      const allReview = await cursor.toArray();
+      res.send(allReview);
     });
 
     app.post("/allReviews", async (req, res) => {
-      const order = req.body;
-      const result = await reviewCollection.insertOne(order);
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
       res.send(result);
     });
 
@@ -98,18 +98,18 @@ async function run() {
       res.send(services);
     });
 
-    // app.patch("/orders/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const status = req.body.status;
-    //   const query = { _id: ObjectId(id) };
-    //   const updatedDoc = {
-    //     $set: {
-    //       status: status,
-    //     },
-    //   };
-    //   const result = await orderCollection.updateOne(query, updatedDoc);
-    //   res.send(result);
-    // });
+    app.patch("/allReviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const status = req.body.status;
+      const query = { _id: ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          status: status,
+        },
+      };
+      const result = await reviewCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    });
 
     app.delete("/allReviews/:id", async (req, res) => {
       const id = req.params.id;
